@@ -32,9 +32,9 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
-logger = setup_logging('nk2dl.gui.panel.models.settings_model')
+logger = setup_logging('nk2dl_gui.panel.models.settings_model')
 
 
 class SettingsModel(QtCore.QObject):

@@ -38,7 +38,7 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-logger = setup_logging('nk2dl.gui.panel.controllers.workers')
+logger = setup_logging('nk2dl_gui.panel.controllers.workers')
 
 
 # ============================================================================
@@ -636,7 +636,7 @@ class NodeDataWorker(QtCore.QObject):
                 return "No file specified"
             
             # Import the utility function
-            from nk2dl.utils import node_pretty_path
+            from nk2dl.nuke_utils import node_pretty_path
             
             # Use the utility function to get a pretty version of the path
             pretty_path = node_pretty_path(node)

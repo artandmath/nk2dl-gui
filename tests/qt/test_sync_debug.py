@@ -20,8 +20,8 @@ else:
     PYSIDE_VERSION = "PySide2"
 
 # Direct imports to avoid relative import issues
-from nk2dl.gui.panel.widgets import FrozenTableWidget, CustomHeaderView
-from nk2dl.gui.panel.constants import TableColumns
+from nk2dl_gui.panel.widgets import FrozenTableWidget, CustomHeaderView
+from nk2dl_gui.panel.constants import TableColumns
 
 def test_synchronization_debug():
     """Test frozen table synchronization with debug output."""

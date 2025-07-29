@@ -28,8 +28,8 @@ else:
     PYSIDE_VERSION = "PySide2"
 
 # Direct imports to avoid relative import issues
-from nk2dl.gui.panel.constants import Colors, TableColumns, HeaderSettingsMapping
-from nk2dl.gui.panel.widgets import FrozenTableWidget, CustomHeaderView
+from nk2dl_gui.panel.constants import Colors, TableColumns, HeaderSettingsMapping
+from nk2dl_gui.panel.widgets import FrozenTableWidget, CustomHeaderView
 
 
 class FrozenHeaderTestWindow(QtWidgets.QMainWindow):

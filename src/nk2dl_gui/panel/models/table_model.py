@@ -690,7 +690,7 @@ class TableDataModel(QtCore.QObject):
         """
         try:
             # Import here to avoid circular imports
-            from ....nuke.utils import nuke_module
+            from nk2dl.nuke_utils import nuke_module
             
             node_name = self._data[row].get("Node", "")
             if not node_name:

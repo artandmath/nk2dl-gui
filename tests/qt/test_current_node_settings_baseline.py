@@ -40,9 +40,9 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-from nk2dl.gui.panel.models import TableDataModel, SettingsModel
-from nk2dl.gui.panel.views import NodeSettingsView
-from nk2dl.gui.panel.constants import TableColumns
+from nk2dl_gui.panel.models import TableDataModel, SettingsModel
+from nk2dl_gui.panel.views import NodeSettingsView
+from nk2dl_gui.panel.constants import TableColumns
 
 
 class BaselineTestWindow(QtWidgets.QMainWindow):

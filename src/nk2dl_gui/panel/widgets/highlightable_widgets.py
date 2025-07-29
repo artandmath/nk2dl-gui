@@ -34,9 +34,9 @@ except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
 from ..constants import Colors
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
-logger = setup_logging('nk2dl.gui.panel.widgets.highlightable_widgets')
+logger = setup_logging('nk2dl_gui.panel.widgets.highlightable_widgets')
 
 
 class HighlightableCheckBox(QtWidgets.QCheckBox):

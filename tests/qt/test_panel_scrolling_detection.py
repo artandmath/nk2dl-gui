@@ -51,7 +51,7 @@ def main():
     
     try:
         # Import the ScrollableTabWidget
-        from nk2dl.gui.panel.widgets.misc_widgets import ScrollableTabWidget
+        from nk2dl_gui.panel.widgets.misc_widgets import ScrollableTabWidget
         
         # Create main window
         window = QtWidgets.QMainWindow()

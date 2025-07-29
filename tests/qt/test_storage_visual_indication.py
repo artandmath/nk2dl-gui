@@ -23,12 +23,12 @@ except ImportError:
         print("Neither PySide6 nor PySide2 is available")
         sys.exit(1)
 
-from nk2dl.gui.panel.widgets.highlightable_widgets import (
+from nk2dl_gui.panel.widgets.highlightable_widgets import (
     HighlightableCheckBox, HighlightableSpinBox, 
     HighlightableComboBox, HighlightableLineEdit
 )
-from nk2dl.gui.panel.storage_visual_indication import StorageVisualIndicationManager
-from nk2dl.gui.panel.constants import Colors
+from nk2dl_gui.panel.storage_visual_indication import StorageVisualIndicationManager
+from nk2dl_gui.panel.constants import Colors
 
 
 class TestStorageVisualIndicationApp(QtWidgets.QWidget):

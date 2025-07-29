@@ -40,7 +40,7 @@ from ..constants import Settings, Sizes
 from ..config import apply_panel_config
 from ..storage_visual_indication import StorageVisualIndicationMixin
 from ..widget_change_tracker import WidgetChangeTrackingMixin
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
 # Set up logger for this module
 logger = setup_logging(__name__)

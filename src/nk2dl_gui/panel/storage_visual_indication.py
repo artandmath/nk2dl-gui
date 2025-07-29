@@ -7,9 +7,9 @@ persisted to the storage system.
 """
 
 from typing import Dict, Any, Optional, Set, List
-from ...common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
-logger = setup_logging('nk2dl.gui.panel.storage_visual_indication')
+logger = setup_logging('nk2dl_gui.panel.storage_visual_indication')
 
 
 class StorageVisualIndicationManager:

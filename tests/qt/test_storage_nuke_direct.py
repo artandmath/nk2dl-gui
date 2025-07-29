@@ -53,7 +53,7 @@ def test_settings_schema_in_nuke():
     
     try:
         # Direct import
-        from nk2dl.gui.panel.constants import SettingsSchema
+        from nk2dl_gui.panel.constants import SettingsSchema
         
         # Test schema access
         priority_type = SettingsSchema.get_parameter_type('priority')
@@ -137,7 +137,7 @@ def test_storage_mock_in_nuke():
         
         # Test storage with mocks
         with patch('nk2dl.gui.panel.repositories.storage.nuke_module', return_value=mock_nuke):
-            from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
+            from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
             
             # Create storage instance
             storage = NodeSettingsStorage()
@@ -184,7 +184,7 @@ def test_build_submission_args_in_nuke():
         mock_nuke.root.return_value = mock_root
         
         with patch('nk2dl.gui.panel.repositories.storage.nuke_module', return_value=mock_nuke):
-            from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
+            from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
             
             # Create mock settings model
             settings_model = Mock()

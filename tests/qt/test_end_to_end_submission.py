@@ -44,7 +44,7 @@ def test_render_button_integration():
             ]
             
             # Import and create panel components
-            from nk2dl.gui.panel import Nk2dlPanel
+            from nk2dl_gui.panel import Nk2dlPanel
             
             # Create mock application if needed
             app = QtWidgets.QApplication.instance()
@@ -167,7 +167,7 @@ def test_error_handling():
             
             mock_root.return_value.name.return_value = "Root"  # Unsaved script
             
-            from nk2dl.gui.panel import Nk2dlPanel
+            from nk2dl_gui.panel import Nk2dlPanel
             panel = Nk2dlPanel()
             
             # Mock required components
@@ -265,8 +265,8 @@ def test_storage_submission_integration():
     print("============================================================")
     
     try:
-        from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-        from nk2dl.gui.panel.models.settings_model import SettingsModel
+        from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+        from nk2dl_gui.panel.models.settings_model import SettingsModel
         
         print("Testing storage to submission parameter flow...")
         

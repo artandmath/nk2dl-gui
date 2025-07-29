@@ -11,10 +11,10 @@ from typing import Dict, Any, List, Optional, Set, Tuple
 
 from nk2dl.logging import setup_logging
 from nk2dl.config import config
-from nk2dl.utils import nuke_module
+from nk2dl.nuke_utils import nuke_module
 from ..constants import Storage
 
-logger = setup_logging('nk2dl.gui.panel.repositories.storage')
+logger = setup_logging('nk2dl_gui.panel.repositories.storage')
 
 
 class NodeSettingsStorage:

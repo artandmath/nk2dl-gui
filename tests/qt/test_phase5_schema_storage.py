@@ -18,7 +18,7 @@ def test_settings_schema_basic():
     print("Testing SettingsSchema basic functionality...")
     
     # Import after path setup
-    from nk2dl.gui.panel.constants import SettingsSchema
+    from nk2dl_gui.panel.constants import SettingsSchema
     
     # Test getting parameter schema
     priority_schema = SettingsSchema.get_parameter_schema('priority')
@@ -59,7 +59,7 @@ def test_settings_schema_validation():
     
     print("Testing SettingsSchema validation...")
     
-    from nk2dl.gui.panel.constants import SettingsSchema
+    from nk2dl_gui.panel.constants import SettingsSchema
     
     # Test valid values
     is_valid, error = SettingsSchema.validate_value('priority', 50)
@@ -106,7 +106,7 @@ def test_helper_functions():
     
     print("Testing helper functions...")
     
-    from nk2dl.gui.panel.constants import (
+    from nk2dl_gui.panel.constants import (
         get_default_value, get_schema_default, 
         validate_settings, convert_and_validate_setting
     )
@@ -170,7 +170,7 @@ def test_enhanced_storage_methods():
     mock_nuke.root.return_value = mock_root
     
     with patch('nk2dl.gui.panel.repositories.storage.nuke_module', return_value=mock_nuke):
-        from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
+        from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
         
         # Create storage instance
         storage = NodeSettingsStorage()
@@ -250,7 +250,7 @@ def test_save_load_all_settings():
     mock_settings_knob.value = mock_get_value
     
     with patch('nk2dl.gui.panel.repositories.storage.nuke_module', return_value=mock_nuke):
-        from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
+        from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
         
         # Create storage instance
         storage = NodeSettingsStorage()

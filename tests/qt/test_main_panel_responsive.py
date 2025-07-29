@@ -28,8 +28,8 @@ def main():
     
     try:
         # Import the main panel
-        from nk2dl.gui.panel import Nk2dlPanel
-        from nk2dl.gui.panel.constants import Sizes
+        from nk2dl_gui.panel import Nk2dlPanel
+        from nk2dl_gui.panel.constants import Sizes
         
         # Create main window
         window = QtWidgets.QMainWindow()

@@ -43,10 +43,10 @@ except ImportError:
             print("Neither PySide6 nor PySide2 is available")
             sys.exit(1)
 
-from nk2dl.gui.panel.models import GSVHierarchyModel
-from nk2dl.gui.panel.views import GSVView
-from nk2dl.gui.panel.widgets import GroupedHeaderView
-from nk2dl.gui.panel.delegates import CenteredCheckboxDelegate
+from nk2dl_gui.panel.models import GSVHierarchyModel
+from nk2dl_gui.panel.views import GSVView
+from nk2dl_gui.panel.widgets import GroupedHeaderView
+from nk2dl_gui.panel.delegates import CenteredCheckboxDelegate
 
 
 class GSVTestWindow(QtWidgets.QMainWindow):

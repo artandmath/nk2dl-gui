@@ -31,11 +31,11 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 from ..constants import TableColumns, Sizes
 
 # Create a module-specific logger
-logger = setup_logging('nk2dl.gui.panel.widgets.table_widgets')
+logger = setup_logging('nk2dl_gui.panel.widgets.table_widgets')
 
 
 class StandardTableWidget(QtWidgets.QTableWidget):

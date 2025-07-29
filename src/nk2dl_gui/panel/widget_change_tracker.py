@@ -7,7 +7,7 @@ behavior and visual indication.
 """
 
 from typing import Dict, Any, Optional, Set
-from ...common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
 try:
     import nuke
@@ -36,7 +36,7 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-logger = setup_logging('nk2dl.gui.panel.widget_change_tracker')
+logger = setup_logging('nk2dl_gui.panel.widget_change_tracker')
 
 
 class WidgetChangeTracker:

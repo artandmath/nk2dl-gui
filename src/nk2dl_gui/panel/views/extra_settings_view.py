@@ -619,7 +619,7 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         self.deadline_env_stretch.setVisible(True)
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.debug("Height balancing enabled via container approach with stretches")
     
     def _remove_height_balancing(self):
@@ -631,7 +631,7 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         self.deadline_env_stretch.setVisible(False)
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.debug("Height balancing disabled for single-column mode")
     
     def _connect_signals(self):
@@ -691,14 +691,14 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         """Handle job dependencies browse button click."""
         # TODO: Implement job dependencies browsing functionality
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.info("Job dependencies browse functionality not yet implemented")
     
     def _on_profiler_path_browse_clicked(self):
         """Handle profiler path browse button click."""
         # TODO: Implement profiler path browsing functionality
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.info("Profiler path browse functionality not yet implemented")
     
     def _on_use_current_environment_changed(self, checked):
@@ -746,7 +746,7 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         self.settings_model.mark_as_user_changed(param_name)
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.debug(f"User changed extra setting: {param_name} = {value}")
     
     def _update_model_setting(self, param_name: str, value, setting_type: str) -> None:
@@ -906,7 +906,7 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         """Apply panel configuration to extra settings controls."""
         # Add debug logging - move outside try block for error handling
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         
         try:
             logger.debug("Starting _apply_configuration for ExtraSettingsView")
@@ -1072,7 +1072,7 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         self.register_widget_for_visual_indication(self.environment_edit, 'environment')
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.debug("Registered all widgets for visual indication in ExtraSettingsView")
     
     def _register_widgets_for_change_tracking(self):
@@ -1124,5 +1124,5 @@ class ExtraSettingsView(StorageVisualIndicationMixin, WidgetChangeTrackingMixin,
         self.register_widget_for_change_tracking(self.environment_edit, 'environment')
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.extra_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.extra_settings_view')
         logger.debug("Registered all widgets for change tracking in ExtraSettingsView") 

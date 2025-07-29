@@ -36,10 +36,10 @@ except ImportError:
 from ..widgets import ColoredGroupBox
 from ..constants import Settings, Sizes, GSVDefaults, Timing
 from ..config import apply_panel_config
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
 # Create logger for this module
-logger = setup_logging('nk2dl.gui.panel.views.node_settings_view')
+logger = setup_logging('nk2dl_gui.panel.views.node_settings_view')
 
 
 class NodeSettingsView(QtWidgets.QWidget):
@@ -1159,7 +1159,7 @@ class NodeSettingsView(QtWidgets.QWidget):
         """Apply panel configuration to table control widgets."""
         # Add debug logging - move outside try block for error handling
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.views.node_settings_view')
+        logger = setup_logging('nk2dl_gui.panel.views.node_settings_view')
         
         try:
             logger.debug("Starting _apply_configuration for NodeSettingsView")

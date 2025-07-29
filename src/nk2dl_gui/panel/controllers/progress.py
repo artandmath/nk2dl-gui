@@ -8,7 +8,7 @@ info labels, and other UI elements during background operations.
 from typing import Optional, Dict, List
 from collections import deque
 
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 from ..constants import Timing
 
 try:
@@ -37,7 +37,7 @@ except ImportError:
         except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
-logger = setup_logging('nk2dl.gui.panel.controllers.progress')
+logger = setup_logging('nk2dl_gui.panel.controllers.progress')
 
 
 class ProgressTask:

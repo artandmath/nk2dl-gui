@@ -32,10 +32,10 @@ except ImportError:
             raise ImportError("Neither PySide6 nor PySide2 is available")
 
 from ..constants import Colors, TableColumns, Sizes
-from ....common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
 # Create a module-specific logger
-logger = setup_logging('nk2dl.gui.panel.widgets.misc_widgets')
+logger = setup_logging('nk2dl_gui.panel.widgets.misc_widgets')
 
 
 class ColoredGroupBox(QtWidgets.QGroupBox):

@@ -28,7 +28,7 @@ __author__ = "Daniel Harkness"
 
 # Get the logger before any Nuke or Qt imports
 from nk2dl.logging import setup_logging
-logger = setup_logging('nk2dl.gui.panel')
+logger = setup_logging('nk2dl_gui.panel')
 
 try:
     import nuke
@@ -62,11 +62,17 @@ except ImportError:
 if NUKE_AVAILABLE or 'QtWidgets' in locals():
     try:
         # Import all the extracted components from their directories
+        logger.debug("Importing models...")
         from .models import TableDataModel, GSVHierarchyModel, SettingsModel
+        logger.debug("Importing views...")
         from .views import SettingsView, NodeSettingsView, GSVView, ExtraSettingsView, ConsoleView
+        logger.debug("Importing constants...")
         from .constants import Sizes, GSVDefaults, Timing, Fonts, Settings
+        logger.debug("Importing config...")
         from .config import apply_panel_config
+        logger.debug("Importing repositories...")
         from .repositories import NodeSettingsStorage
+        logger.debug("Importing controllers...")
         from .controllers import PanelProgressManager, DeadlineResourceWorker, NodeDataWorker, SubmissionWorker, ThreadLogHandler
 
         import logging
@@ -1320,6 +1326,9 @@ if NUKE_AVAILABLE or 'QtWidgets' in locals():
 
     except ImportError as e:
         # Handle case where panel components are not available
+        logger.error(f"ImportError in panel components: {str(e)}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
         __all__ = ['get_panel_availability']
         _PANEL_AVAILABLE = False
         _IMPORT_ERROR = str(e)
@@ -1347,7 +1356,7 @@ def get_panel_availability():
     Example:
         >>> available, error = get_panel_availability()
         >>> if available:
-        ...     from nk2dl.gui.panel import register_panel
+        ...     from nk2dl_gui.panel import register_panel
         ...     register_panel()
     """
     if _PANEL_AVAILABLE:

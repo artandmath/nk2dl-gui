@@ -27,8 +27,8 @@ def main():
     
     try:
         # Import the SettingsView and SettingsModel
-        from nk2dl.gui.panel.models.settings_model import SettingsModel
-        from nk2dl.gui.panel.views.settings_view import SettingsView
+        from nk2dl_gui.panel.models.settings_model import SettingsModel
+        from nk2dl_gui.panel.views.settings_view import SettingsView
         
         # Create the settings model
         print("Creating SettingsModel...")

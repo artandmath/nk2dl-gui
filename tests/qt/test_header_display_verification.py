@@ -20,7 +20,7 @@ else:
     PYSIDE_VERSION = "PySide2"
 
 # Direct import to avoid relative import issues
-from nk2dl.gui.panel.constants import TableColumns
+from nk2dl_gui.panel.constants import TableColumns
 
 class HeaderDisplayTest(QtWidgets.QMainWindow):
     """Test window to verify header display names."""

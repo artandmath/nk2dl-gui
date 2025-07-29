@@ -147,7 +147,7 @@ class SimpleNodeSettingsView(QtWidgets.QWidget):
         
         if is_overridden:
             # Use highlight color background for override values (same as other highlightable widgets)
-            from nk2dl.gui.panel.constants import Colors
+            from nk2dl_gui.panel.constants import Colors
             # White text for explicit values
             item.setForeground(QtGui.QBrush(QtGui.QColor(255, 255, 255)))
             # Light blue background for highlighting (same as other widgets)

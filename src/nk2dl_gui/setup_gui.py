@@ -27,10 +27,10 @@ except ImportError:
     NUKE_AVAILABLE = False
     PYSIDE_VERSION = "Unknown"
 
-from .common.logging import setup_logging
+from nk2dl.logging import setup_logging
 
 # Create a module-specific logger
-logger = setup_logging('nk2dl.setup_gui')
+logger = setup_logging('nk2dl_gui.setup_gui')
 
 def setup_gui():
     """Create and register the dockable nk2dl panel and menus.
@@ -43,13 +43,13 @@ def setup_gui():
         return None
     
     try:
-        from .gui.panel import register_panel
+        from .panel import register_panel
         register_panel()
     except Exception as e:
         logger.error(f"Failed to register nk2dl panel: {str(e)}")
 
     try:
-        from .gui.menus import create_render_menus, create_toolbar_commands
+        from .menus import create_render_menus, create_toolbar_commands
         create_render_menus()
         create_toolbar_commands()
     except Exception as e:

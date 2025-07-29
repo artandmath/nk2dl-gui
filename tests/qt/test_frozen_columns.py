@@ -23,9 +23,9 @@ except ImportError:
         print("Neither PySide6 nor PySide2 is available")
         sys.exit(1)
 
-from nk2dl.gui.panel.models import TableDataModel, SettingsModel
-from nk2dl.gui.panel.widgets import FrozenTableWidget
-from nk2dl.gui.panel.delegates import SettingsAwareDelegate
+from nk2dl_gui.panel.models import TableDataModel, SettingsModel
+from nk2dl_gui.panel.widgets import FrozenTableWidget
+from nk2dl_gui.panel.delegates import SettingsAwareDelegate
 
 
 class FrozenColumnTestWindow(QtWidgets.QMainWindow):
@@ -157,7 +157,7 @@ class FrozenColumnTestWindow(QtWidgets.QMainWindow):
                 is_overridden = self.table_model.is_cell_overridden(row, col)
                 # Don't make frozen columns highlighted (they don't support inheritance)
                 if col >= 3 and is_overridden:  # Only non-frozen columns can be highlighted
-                    from nk2dl.gui.panel.constants import Colors
+                    from nk2dl_gui.panel.constants import Colors
                     # Light blue background for highlighting (same as other widgets)
                     item.setBackground(QtGui.QBrush(QtGui.QColor(Colors.WIDGET_HIGHLIGHT_COLOR)))
                 

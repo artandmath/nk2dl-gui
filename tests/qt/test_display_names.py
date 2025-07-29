@@ -11,7 +11,7 @@ import os
 project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, project_root)
 
-from nk2dl.gui.panel.constants import TableColumns
+from nk2dl_gui.panel.constants import TableColumns
 
 def test_display_names():
     """Test that display names are correctly mapped."""

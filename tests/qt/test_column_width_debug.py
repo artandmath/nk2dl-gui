@@ -18,8 +18,8 @@ else:
     from PySide2 import QtWidgets, QtCore, QtGui
 
 # Import our widgets and constants
-from nk2dl.gui.panel.widgets.table_widgets import FrozenTableWidget
-from nk2dl.gui.panel.constants import TableColumns, Sizes
+from nk2dl_gui.panel.widgets.table_widgets import FrozenTableWidget
+from nk2dl_gui.panel.constants import TableColumns, Sizes
 
 def debug_header_resize_modes():
     """Debug different header resize modes and their effects on column widths."""

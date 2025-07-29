@@ -50,7 +50,7 @@ class Settings:
         cls._pools_loaded = True
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.constants')
+        logger = setup_logging('nk2dl_gui.panel.constants')
         logger.info(f"Pool options updated: {cls._pool_options}")
     
     @classmethod
@@ -79,7 +79,7 @@ class Settings:
         cls._groups_loaded = True
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.constants')
+        logger = setup_logging('nk2dl_gui.panel.constants')
         logger.info(f"Group options updated: {cls._group_options}")
     
     @classmethod
@@ -107,7 +107,7 @@ class Settings:
         cls._pools_loaded = True
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.constants')
+        logger = setup_logging('nk2dl_gui.panel.constants')
         logger.warning("Using fallback pool options - Deadline unavailable")
     
     @classmethod
@@ -117,7 +117,7 @@ class Settings:
         cls._groups_loaded = True
         
         from nk2dl.logging import setup_logging
-        logger = setup_logging('nk2dl.gui.panel.constants')
+        logger = setup_logging('nk2dl_gui.panel.constants')
         logger.warning("Using fallback group options - Deadline unavailable")
     
     # Legacy properties for backwards compatibility

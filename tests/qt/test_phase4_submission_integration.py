@@ -19,8 +19,8 @@ def test_build_submission_args_basic():
     """Test basic build_submission_args functionality"""
     
     # Import after path setup
-    from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-    from nk2dl.gui.panel.models.settings_model import SettingsModel
+    from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+    from nk2dl_gui.panel.models.settings_model import SettingsModel
     from nk2dl.config import config
     
     print("Testing basic build_submission_args functionality...")
@@ -69,8 +69,8 @@ def test_build_submission_args_basic():
 def test_build_submission_args_with_node_overrides():
     """Test build_submission_args with node-specific overrides"""
     
-    from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-    from nk2dl.gui.panel.models.settings_model import SettingsModel
+    from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+    from nk2dl_gui.panel.models.settings_model import SettingsModel
     
     print("Testing build_submission_args with node overrides...")
     
@@ -150,8 +150,8 @@ def test_build_submission_args_with_node_overrides():
 def test_build_submission_args_with_additional_kwargs():
     """Test build_submission_args with additional keyword arguments"""
     
-    from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-    from nk2dl.gui.panel.models.settings_model import SettingsModel
+    from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+    from nk2dl_gui.panel.models.settings_model import SettingsModel
     
     print("Testing build_submission_args with additional kwargs...")
     
@@ -198,9 +198,9 @@ def test_build_submission_args_with_additional_kwargs():
 def test_parameter_name_mapping():
     """Test that parameter names in HeaderSettingsMapping are correctly used"""
     
-    from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-    from nk2dl.gui.panel.models.settings_model import SettingsModel
-    from nk2dl.gui.panel.constants import HeaderSettingsMapping
+    from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+    from nk2dl_gui.panel.models.settings_model import SettingsModel
+    from nk2dl_gui.panel.constants import HeaderSettingsMapping
     
     print("Testing parameter name mapping...")
     
@@ -250,8 +250,8 @@ def test_parameter_name_mapping():
 def test_zero_translation_compatibility():
     """Test that built args are compatible with NukeSubmission constructor"""
     
-    from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
-    from nk2dl.gui.panel.models.settings_model import SettingsModel
+    from nk2dl_gui.panel.repositories.storage import NodeSettingsStorage
+    from nk2dl_gui.panel.models.settings_model import SettingsModel
     
     print("Testing zero-translation compatibility...")
     

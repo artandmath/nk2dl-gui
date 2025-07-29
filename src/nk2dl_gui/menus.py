@@ -24,7 +24,7 @@ except ImportError:
 from nk2dl.logging import setup_logging
 
 # Create a module-specific logger
-logger = setup_logging('nk2dl.gui.menus')
+logger = setup_logging('nk2dl_gui.menus')
 
 
 def create_render_menus():
@@ -74,7 +74,7 @@ def create_render_menus():
     # Add Selected Writes submission command
     render_menu.addCommand(
         'Submit Selected Writes to Deadline',
-        'from nk2dl.gui.menus import submit_selected_writes_to_deadline; submit_selected_writes_to_deadline()',
+        'from nk2dl_gui.menus import submit_selected_writes_to_deadline; submit_selected_writes_to_deadline()',
         "alt+shift+F7",
         tooltip='Submit selected Write/DeepWrite nodes to Deadline',
     )
@@ -96,7 +96,7 @@ def create_toolbar_commands():
         return None
     
     # Get the path to the gizmos directory
-    current_dir = Path(__file__).parent
+    current_dir = Path(__file__).parent.parent
     gizmos_dir = current_dir / "grizmos"
     
     # Define gizmo files
