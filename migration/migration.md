@@ -13,6 +13,15 @@
 
 This ensures that the separation is clean and that both modules maintain proper interfaces.
 
+## Reference: Monolithic Structure (@nk2dl/)
+
+**IMPORTANT**: The `@nk2dl/` folder in the migration directory contains the old monolithic structure and serves as **reference only**. 
+
+- **DO NOT** make changes to the monolithic folder in the migration directory
+- Use it as reference to understand the previous structure and implementation
+- This is the baseline for understanding what needs to be migrated and how components were previously organized
+- All actual development work should be done in the new modular structure
+
 ## Core Module Structure Changes
 
 **IMPORTANT UPDATE**: The core `nk2dl` module has undergone a flattening of its structure. The previous nested module structure has been simplified to improve maintainability and reduce import complexity.
@@ -108,36 +117,55 @@ def get_gui_logger(name: str) -> logging.Logger:
     from nk2dl.logging import setup_logging
     return setup_logging(f'nk2dl_gui.{name}')
 
-class QtLogFormatter:
-    """Minimal Qt-specific logging utilities"""
+class QtLogger:
+    """Qt-specific logger that wraps standard logger with UI formatting"""
     
-    @staticmethod
-    def format_ui_operation(message: str) -> str:
-        """Format UI operation messages with emojis"""
-        return f"🖥️ {message}"
+    def __init__(self, name: str):
+        from nk2dl.logging import setup_logging
+        self._logger = setup_logging(name)
+        self._ui_operation_mode = False
     
-    @staticmethod
-    def format_error(message: str) -> str:
-        """Format error messages with emojis"""
-        return f"❌ {message}"
+    def set_ui_operation_mode(self, enabled: bool):
+        """Enable/disable UI operation mode for emoji formatting"""
+        self._ui_operation_mode = enabled
     
-    @staticmethod
-    def format_warning(message: str) -> str:
-        """Format warning messages with emojis"""
-        return f"⚠️ {message}"
-
-# Convenience function for Qt-specific logging
-def qt_log(logger: logging.Logger, level: str, message: str, use_emoji: bool = True):
-    """Log message with optional Qt-specific formatting"""
-    if use_emoji:
+    def _format_message(self, message: str, level: str) -> str:
+        """Format message with emojis if UI operation mode is enabled"""
+        if not self._ui_operation_mode:
+            return message
+            
         if level == 'debug':
-            message = QtLogFormatter.format_ui_operation(message)
+            return f"🖥️ {message}"
         elif level == 'error':
-            message = QtLogFormatter.format_error(message)
+            return f"❌ {message}"
         elif level == 'warning':
-            message = QtLogFormatter.format_warning(message)
+            return f"⚠️ {message}"
+        elif level == 'info':
+            return f"ℹ️ {message}"
+        return message
     
-    getattr(logger, level)(message)
+    def debug(self, message: str):
+        """Log debug message with optional UI formatting"""
+        self._logger.debug(self._format_message(message, 'debug'))
+    
+    def info(self, message: str):
+        """Log info message with optional UI formatting"""
+        self._logger.info(self._format_message(message, 'info'))
+    
+    def warning(self, message: str):
+        """Log warning message with optional UI formatting"""
+        self._logger.warning(self._format_message(message, 'warning'))
+    
+    def error(self, message: str):
+        """Log error message with optional UI formatting"""
+        self._logger.error(self._format_message(message, 'error'))
+    
+    def critical(self, message: str):
+        """Log critical message with optional UI formatting"""
+        self._logger.critical(self._format_message(message, 'critical'))
+
+# Create a singleton qt_logger for import - follows same pattern as regular logger
+qt_logger = QtLogger('nk2dl_gui.qt')
 ```
 
 ### Migration Strategy
@@ -159,40 +187,43 @@ qt_logger.debug("🖥️ UI operation message")
 qt_logger.set_ui_operation_mode(True)
 ```
 
-**New approach:**
+**New approach (follows standard logger pattern):**
 ```python
+# Import once per file - same pattern as regular logger
+from nk2dl_gui.logging import qt_logger
+
+# Use directly like a regular logger
+qt_logger.debug("UI operation message")  # Auto-formatted with 🖥️ if UI mode enabled
+qt_logger.set_ui_operation_mode(True)    # Enable emoji formatting
+qt_logger.error("Error message")         # Auto-formatted with ❌ if UI mode enabled
+
+# For regular logging without Qt formatting, use standard logger
 from nk2dl.logging import setup_logging
-from ..logging import qt_log
-
 logger = setup_logging('nk2dl_gui.panel.views.node_settings_view')
-
-# For Qt-specific formatting
-qt_log(logger, 'debug', "UI operation message", use_emoji=True)
-
-# For standard logging
 logger.debug("Standard debug message")
 ```
 
-**3. Automated Qt Logger Replacement Script**
+**3. Automated Qt Logger Import Replacement Script**
 
 ```bash
-# Find all qt_logger usage and replace with new pattern
-find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.debug(/qt_log(logger, "debug", /g' {} \;
-find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.error(/qt_log(logger, "error", /g' {} \;
-find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.warning(/qt_log(logger, "warning", /g' {} \;
+# Update qt_logger imports to use new module location
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from .*common\.logging import qt_logger/from nk2dl_gui.logging import qt_logger/g' {} \;
 
-# Remove qt_logger imports
-find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i '/from.*common\.logging.*qt_logger/d' {} \;
+# No changes needed to qt_logger usage - it maintains the same interface
+# qt_logger.debug(), qt_logger.error(), etc. work exactly the same
 ```
 
 ### Benefits of This Approach
 
-1. **Consistency**: All logging uses the same core system
-2. **Simpler maintenance**: One logging configuration to maintain
-3. **Better integration**: GUI and core logs are unified
-4. **Minimal duplication**: Only Qt-specific formatting is duplicated
-5. **Flattened structure**: No unnecessary `common.logging` submodule
-6. **Future-proof**: Easy to extend without breaking core logging
+1. **Consistency**: All logging uses the same core system and import patterns
+2. **Familiar Interface**: qt_logger works exactly like a regular logger - import once, use everywhere  
+3. **Simpler maintenance**: One logging configuration to maintain
+4. **Backward Compatibility**: Existing qt_logger.debug() calls work without changes
+5. **Optional Formatting**: UI-specific emoji formatting can be enabled/disabled as needed
+6. **Better integration**: GUI and core logs are unified
+7. **Minimal duplication**: Only Qt-specific formatting is duplicated
+8. **Flattened structure**: No unnecessary `common.logging` submodule
+9. **Future-proof**: Easy to extend without breaking core logging
 
 ### Implementation Requirements
 
@@ -283,6 +314,14 @@ mkdir -p nk2dl-gui/src/grizmos
 mkdir -p nk2dl-gui/src/dot_nuke
 mkdir -p nk2dl-gui/tests
 ```
+
+After migration the folder structure will look as follows:
+
+# Create src folder structure
+/nk2dl-gui/src/nk2dl_gui
+/nk2dl-gui/src/grizmos
+/nk2dl-gui/src/dot_nuke
+/nk2dl-gui/tests
 
 ### 2. Extract GUI Components
 
