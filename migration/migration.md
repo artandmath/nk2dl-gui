@@ -13,6 +13,197 @@
 
 This ensures that the separation is clean and that both modules maintain proper interfaces.
 
+## Core Module Structure Changes
+
+**IMPORTANT UPDATE**: The core `nk2dl` module has undergone a flattening of its structure. The previous nested module structure has been simplified to improve maintainability and reduce import complexity.
+
+### Previous Structure (Deprecated)
+```
+nk2dl/
+├── common/
+│   ├── config.py
+│   └── logging.py
+├── nuke/
+│   ├── submission.py
+│   └── utils.py
+├── deadline/
+│   └── connection.py
+└── gui/
+    └── ...
+```
+
+### New Flattened Structure
+```
+nk2dl/
+├── config.py          # Previously nk2dl.common.config
+├── logging.py         # Previously nk2dl.common.logging
+├── submission.py      # Previously nk2dl.nuke.submission
+├── utils.py           # Previously nk2dl.nuke.utils
+├── connection.py      # Previously nk2dl.deadline.connection
+└── gui/
+    └── ...
+```
+
+### Import Statement Updates Required
+
+**All import statements in the GUI module must be updated to use the new flattened structure:**
+
+```python
+# OLD IMPORTS (DEPRECATED)
+from nk2dl.common.config import config
+from nk2dl.common.logging import setup_logging
+from nk2dl.nuke.submission import submit_nuke_script
+from nk2dl.nuke.utils import nuke_module
+from nk2dl.deadline.connection import DeadlineConnection
+
+# NEW IMPORTS (FLATTENED)
+from nk2dl.config import config
+from nk2dl.logging import setup_logging
+from nk2dl.submission import submit_nuke_script
+from nk2dl.utils import nuke_module
+from nk2dl.connection import DeadlineConnection
+```
+
+## Qt Logger Migration
+
+**RECOMMENDATION**: Use the core `nk2dl.logging` system with minimal GUI-specific extensions rather than creating a separate Qt logger. This provides better consistency and simpler maintenance.
+
+### Current Logging Usage Analysis
+
+The GUI module currently uses two logging approaches:
+
+1. **Standard logging** (majority of usage):
+   ```python
+   from nk2dl.common.logging import setup_logging
+   logger = setup_logging('nk2dl.gui.panel.views.node_settings_view')
+   ```
+
+2. **Qt-specific logging** (limited usage):
+   ```python
+   from ....common.logging import qt_logger
+   qt_logger.debug("🖥️ UI operation message")
+   ```
+
+### Recommended Approach: Core Logger + GUI Extensions
+
+**Use the flattened core logger for all standard logging:**
+
+```python
+# OLD (DEPRECATED)
+from nk2dl.common.logging import setup_logging
+
+# NEW (FLATTENED)
+from nk2dl.logging import setup_logging
+```
+
+**Create minimal GUI-specific logging utilities:**
+
+```python
+# nk2dl-gui/src/nk2dl_gui/logging.py
+import logging
+from typing import Optional
+
+def get_gui_logger(name: str) -> logging.Logger:
+    """Get a logger configured for GUI operations"""
+    from nk2dl.logging import setup_logging
+    return setup_logging(f'nk2dl_gui.{name}')
+
+class QtLogFormatter:
+    """Minimal Qt-specific logging utilities"""
+    
+    @staticmethod
+    def format_ui_operation(message: str) -> str:
+        """Format UI operation messages with emojis"""
+        return f"🖥️ {message}"
+    
+    @staticmethod
+    def format_error(message: str) -> str:
+        """Format error messages with emojis"""
+        return f"❌ {message}"
+    
+    @staticmethod
+    def format_warning(message: str) -> str:
+        """Format warning messages with emojis"""
+        return f"⚠️ {message}"
+
+# Convenience function for Qt-specific logging
+def qt_log(logger: logging.Logger, level: str, message: str, use_emoji: bool = True):
+    """Log message with optional Qt-specific formatting"""
+    if use_emoji:
+        if level == 'debug':
+            message = QtLogFormatter.format_ui_operation(message)
+        elif level == 'error':
+            message = QtLogFormatter.format_error(message)
+        elif level == 'warning':
+            message = QtLogFormatter.format_warning(message)
+    
+    getattr(logger, level)(message)
+```
+
+### Migration Strategy
+
+**1. Update All Standard Logging Imports**
+
+```bash
+# Update all setup_logging imports to use flattened structure
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.common\.logging import setup_logging/from nk2dl.logging import setup_logging/g' {} \;
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.common\.logging import setup_logging/from nk2dl.logging import setup_logging/g' {} \;
+```
+
+**2. Replace Qt Logger Usage**
+
+**Old Qt logger usage:**
+```python
+from ....common.logging import qt_logger
+qt_logger.debug("🖥️ UI operation message")
+qt_logger.set_ui_operation_mode(True)
+```
+
+**New approach:**
+```python
+from nk2dl.logging import setup_logging
+from ..logging import qt_log
+
+logger = setup_logging('nk2dl_gui.panel.views.node_settings_view')
+
+# For Qt-specific formatting
+qt_log(logger, 'debug', "UI operation message", use_emoji=True)
+
+# For standard logging
+logger.debug("Standard debug message")
+```
+
+**3. Automated Qt Logger Replacement Script**
+
+```bash
+# Find all qt_logger usage and replace with new pattern
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.debug(/qt_log(logger, "debug", /g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.error(/qt_log(logger, "error", /g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/qt_logger\.warning(/qt_log(logger, "warning", /g' {} \;
+
+# Remove qt_logger imports
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i '/from.*common\.logging.*qt_logger/d' {} \;
+```
+
+### Benefits of This Approach
+
+1. **Consistency**: All logging uses the same core system
+2. **Simpler maintenance**: One logging configuration to maintain
+3. **Better integration**: GUI and core logs are unified
+4. **Minimal duplication**: Only Qt-specific formatting is duplicated
+5. **Flattened structure**: No unnecessary `common.logging` submodule
+6. **Future-proof**: Easy to extend without breaking core logging
+
+### Implementation Requirements
+
+The GUI module should:
+
+1. **Use core logger** for all standard logging operations
+2. **Create minimal GUI utilities** only for Qt-specific formatting
+3. **Maintain thread safety** through the core logging system
+4. **Use consistent log levels** across all modules
+5. **Leverage core configuration** for log output and formatting
+
 ## Current State Analysis
 
 The nk2dl project currently consists of 2 tightly integrated components:
@@ -30,9 +221,11 @@ Core Module → Deadline API + Nuke API
 ### Key Dependencies Identified
 
 **GUI Dependencies:**
-- `nk2dl.common.*` - All common modules
-- `nk2dl.nuke.submission` - Core submission logic
-- `nk2dl.deadline.connection` - Deadline connectivity
+- `nk2dl.config` - Configuration management (previously `nk2dl.common.config`)
+- `nk2dl.logging` - Logging setup (previously `nk2dl.common.logging`)
+- `nk2dl.submission` - Core submission logic (previously `nk2dl.nuke.submission`)
+- `nk2dl.connection` - Deadline connectivity (previously `nk2dl.deadline.connection`)
+- `nk2dl.utils` - Nuke utilities (previously `nk2dl.nuke.utils`)
 - Nuke API + PySide (Qt)
 
 **Core Module Dependencies:**
@@ -188,16 +381,40 @@ setup(
 ### 4. Update Import Statements
 
 **In nk2dl-gui, update imports throughout GUI modules:**
-```python
-# Old imports
-from ..common.config import config
-from ..nuke.submission import submit_nuke_script
-from ..deadline.connection import DeadlineConnection
 
-# New imports
+**Critical: Update all import statements to use the new flattened structure:**
+
+```python
+# OLD IMPORTS (DEPRECATED) - MUST BE UPDATED
 from nk2dl.common.config import config
+from nk2dl.common.logging import setup_logging
 from nk2dl.nuke.submission import submit_nuke_script
+from nk2dl.nuke.utils import nuke_module
 from nk2dl.deadline.connection import DeadlineConnection
+
+# NEW IMPORTS (FLATTENED) - USE THESE
+from nk2dl.config import config
+from nk2dl.logging import setup_logging
+from nk2dl.submission import submit_nuke_script
+from nk2dl.utils import nuke_module
+from nk2dl.connection import DeadlineConnection
+```
+
+**Automated Import Update Script:**
+```bash
+# Update imports in source files
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.common\.config/from nk2dl.config/g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.common\.logging/from nk2dl.logging/g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.nuke\.submission/from nk2dl.submission/g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.nuke\.utils/from nk2dl.utils/g' {} \;
+find nk2dl-gui/src/nk2dl_gui -name "*.py" -exec sed -i 's/from nk2dl\.deadline\.connection/from nk2dl.connection/g' {} \;
+
+# Update imports in test files
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.common\.config/from nk2dl.config/g' {} \;
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.common\.logging/from nk2dl.logging/g' {} \;
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.nuke\.submission/from nk2dl.submission/g' {} \;
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.nuke\.utils/from nk2dl.utils/g' {} \;
+find nk2dl-gui/tests -name "*.py" -exec sed -i 's/from nk2dl\.deadline\.connection/from nk2dl.connection/g' {} \;
 ```
 
 **Important**: If any of these imports fail during testing, you must assess whether the issue is in the core module's API or the GUI module's usage, and make changes in the appropriate repository.
@@ -400,7 +617,8 @@ nk2dl       | nk2dl-gui    | Notes
    - Move `gui/` modules to `src/nk2dl_gui/`
    - Move `setup_gui.py` to GUI package
    - Move `dot_nuke/` to `nuke_integration/`
-   - Update imports to use `nk2dl` dependency
+   - **CRITICAL**: Update all import statements to use flattened core module structure
+   - **CRITICAL**: Migrate to use core logger with minimal GUI extensions
    - Create GUI-specific setup and configuration
    - Set up CI/CD pipeline with Qt testing
    - Create comprehensive test suite
@@ -413,16 +631,17 @@ nk2dl       | nk2dl-gui    | Notes
    - Test with Nuke launch command: `& 'C:\Program Files\Nuke15.1v1\Nuke15.1.exe'`
 
 3. **Interface testing with core module**
-   - Test all imports from the core `nk2dl` package
+   - Test all imports from the core `nk2dl` package using new flattened structure
    - Verify that the GUI can properly communicate with the core module
+   - Test logging functionality with core logger
    - If interface issues arise, assess whether changes are needed in core or GUI
    - Make changes in the appropriate repository
 
 ### Phase 2: Integration and Testing (Week 3)
 
 1. **Cross-package integration testing**
-   - Test GUI with the core module
-   - Verify functionality preservation
+   - Test GUI with the core module using new flattened imports
+   - Verify logging functionality and consistency
    - Test version compatibility
    - Performance benchmarking
 
@@ -431,6 +650,8 @@ nk2dl       | nk2dl-gui    | Notes
    - Create GUI-specific documentation
    - Update examples and tutorials
    - Create migration guide for existing users
+   - **Document the new flattened import structure**
+   - **Document the logging approach and GUI extensions**
 
 3. **Release coordination**
    - Coordinate with core module release
@@ -508,17 +729,25 @@ nk2dl       | nk2dl-gui    | Notes
 - [x] Create new repository
 - [ ] Extract GUI modules
 - [ ] Move Nuke integration files
+- [ ] **CRITICAL**: Update all import statements to use flattened core module structure
+- [ ] **CRITICAL**: Migrate to use core logger with minimal GUI extensions
+  - [ ] Create minimal GUI logging utilities (`nk2dl_gui/logging.py`)
+  - [ ] Update all `setup_logging` imports to use flattened structure
+  - [ ] Replace `qt_logger` usage with core logger + GUI extensions
+  - [ ] Test logging functionality and consistency
+  - [ ] Verify thread safety through core logging system
 - [ ] Update to use nk2dl dependency
 - [ ] Set up CI/CD pipeline with Qt support
 - [ ] Create GUI-specific tests
-- [ ] Test GUI integration with core
+- [ ] Test GUI integration with core using new imports
 - [ ] Test Nuke panel functionality
 - [ ] Publish to PyPI (test)
 - [ ] Publish to PyPI (production)
 - [ ] Update documentation
 
 ### Integration and Release
-- [ ] Cross-package integration testing
+- [ ] Cross-package integration testing with flattened imports
+- [ ] Logging integration testing with core module
 - [ ] Version compatibility testing
 - [ ] Performance benchmarking
 - [ ] Update main documentation
@@ -535,24 +764,33 @@ nk2dl       | nk2dl-gui    | Notes
 - Provide clear migration guides
 - Use semantic versioning strictly
 - Deprecate features before removal
+- **Document the import structure changes clearly**
+- **Ensure logging migration maintains functionality**
 
 ### 2. **Dependency Management**
 - Pin dependency versions in setup.py
 - Use compatible version ranges with core module
 - Regular dependency security updates
 - Monitor for dependency conflicts
+- **Ensure core module version supports flattened structure**
+- **Verify logging dependencies are properly managed**
 
 ### 3. **Testing Coverage**
 - Comprehensive test suites for the GUI package
-- Integration testing with core module
+- Integration testing with core module using new imports
+- **Logging functionality testing**
+- **Thread safety testing for logging**
 - Automated testing in CI/CD
 - Manual testing for critical workflows
+- **Test all import paths after flattening**
 
 ### 4. **Documentation and Support**
 - Clear installation instructions for the GUI package
 - Comprehensive migration guides
 - Troubleshooting documentation
 - Community support channels
+- **Document the new import structure**
+- **Document logging approach and GUI extensions**
 
 ## Timeline
 
