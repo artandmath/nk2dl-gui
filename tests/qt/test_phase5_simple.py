@@ -17,7 +17,7 @@ def test_config_integration():
     print("Testing config system integration...")
     
     # Import config directly
-    from nk2dl.common.config import config
+    from nk2dl.config import config
     
     # Test that we can get submission parameters from config
     priority = config.get('submission.priority')

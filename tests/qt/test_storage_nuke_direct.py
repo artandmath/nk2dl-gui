@@ -22,7 +22,7 @@ def test_config_system_in_nuke():
     
     try:
         # Direct import without relative imports
-        from nk2dl.common.config import config
+        from nk2dl.config import config
         
         # Test config access
         priority = config.get('submission.priority')

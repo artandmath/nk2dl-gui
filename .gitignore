@@ -37,6 +37,9 @@ venv.bak/
 *~
 #.cursor/
 
+#Migration
+/migration/nk2dl/
+
 # Nuke
 *.nk~
 *.autosave*

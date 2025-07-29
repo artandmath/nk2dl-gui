@@ -21,7 +21,7 @@ def test_build_submission_args_basic():
     # Import after path setup
     from nk2dl.gui.panel.repositories.storage import NodeSettingsStorage
     from nk2dl.gui.panel.models.settings_model import SettingsModel
-    from nk2dl.common.config import config
+    from nk2dl.config import config
     
     print("Testing basic build_submission_args functionality...")
     

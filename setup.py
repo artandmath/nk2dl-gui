@@ -40,9 +40,7 @@ setup(
     ],
     python_requires=">=3.10",
     package_data={
-        "nk2dl_gui": [
-            "gui/grizmos/*.nk",
-            "nuke_integration/*.py",
-        ],
+        "grizmos": ["*.nk"],
+        "dot_nuke": ["*.py"],
     },
 )
