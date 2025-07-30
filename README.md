@@ -1,17 +1,18 @@
 # nk2dl-gui
 
-**Nuke to Deadline Submitter - GUI Panel**
+Welcome to `nk2dl-gui`, a Qt-based GUI for submitting scripts to Thinkbox Deadline. 
 
-Nuke GUI for submitting scripts to Thinkbox Deadline. Requires [nk2dl](https://github.com/artandmath/nk2dl) core module.
+![I feel the need, the need for speed!](./docs/img/screenshot_panel_initial_state.png)
 
-## Features
+## Getting started
 
-PLACEHOLDER STUB
-
-## Installation
-
-PLACEHOLDER STUB
+- Install the [nk2dl-core](https://github.com/artandmath/nk2dl-core) python module if not done so already.
+- Read the [documentation](http://artandmath.github.io/nk2dl-gui) to get `nk2dl-gui` up and running.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+[MIT License](./LICENSE)
+
+## Contributing
+
+[Guidelines for contributing to the project](./docs/contributing.md)

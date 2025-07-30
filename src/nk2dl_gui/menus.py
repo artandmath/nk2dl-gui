@@ -96,8 +96,8 @@ def create_toolbar_commands():
         return None
     
     # Get the path to the gizmos directory
-    current_dir = Path(__file__).parent.parent
-    gizmos_dir = current_dir / "grizmos"
+    current_dir = Path(__file__).parent
+    gizmos_dir = current_dir.parent / "nk2dl_grizmos"
     
     # Define gizmo files
     gizmos = {
@@ -164,7 +164,7 @@ def submit_selected_writes_to_deadline():
         write_node_names.append(node.fullName())
 
     try:
-        from nk2dl.nuke import submit_nuke_script
+        from nk2dl import submit_nuke_script
         
         results = submit_nuke_script(
             nuke.root().name(),
