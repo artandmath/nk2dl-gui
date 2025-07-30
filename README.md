@@ -6,7 +6,7 @@ Welcome to `nk2dl-gui` (aka Nuke to Deadline GUI). `nk2dl-gui` is a set of compo
 
 ## Getting started
 
-- Install the [nk2dl-core](https://github.com/artandmath/nk2dl-core) python module if not done so already.
+- Install the [nk2dl](https://github.com/artandmath/nk2dl-core) python module if not done so already.
 - Read the [documentation](http://artandmath.github.io/nk2dl-gui) to get `nk2dl-gui` up and running.
 
 ## License
