@@ -38,7 +38,6 @@ venv.bak/
 #.cursor/
 
 #Migration
-/migration/nk2dl/
 
 # Nuke
 *.nk~
@@ -64,6 +63,7 @@ htmlcov/
 thinkbox/
 .farm
 /config.yaml
+/migration
 
 # OS specific
 .DS_Store
