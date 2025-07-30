@@ -1,0 +1,21 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+a {
+  text-decoration: underline;
+  font-weight: bold;    
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+code {
+    font-weight: bold;
+}
+
+pre code {
+    font-weight: normal;
+}
