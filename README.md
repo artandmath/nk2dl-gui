@@ -1,6 +1,6 @@
 # nk2dl-gui
 
-Welcome to `nk2dl-gui`, a Qt-based GUI for submitting scripts to Thinkbox Deadline. 
+Welcome to `nk2dl-gui`, a set of GUI components for submitting nukescripts to Thinkbox Deadline from Nuke. 
 
 ![I feel the need, the need for speed!](./docs/img/screenshot_panel_initial_state.png)
 
