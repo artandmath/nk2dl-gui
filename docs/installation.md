@@ -74,6 +74,7 @@ from nk2dl_gui import setup_gui
 ## 5. Install Metadata Gizmos (optional)
 
 STUB
+
 Metadata nodes will be available as "Grizmos" (aka Groups) from the nodes menu if the Metadata nodea are not installed as Gizmos.
 
 ## 6. Verify
