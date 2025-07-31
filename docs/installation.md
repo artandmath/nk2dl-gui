@@ -9,7 +9,7 @@
 
 ## 1. Install Dependencies
 
-Follow the [Installation Guide](https://artandmath.github.io/nk2dl/installation.html) for the `nk2dl` python module to install the dependencies.
+Follow the [`nk2dl` Installation Guide](https://artandmath.github.io/nk2dl/installation.html) to install the `nk2dl` python module and other dependencies.
 
 ## 2. Download
 
