@@ -48,20 +48,19 @@ def create_render_menus():
     render_menu = menubar.addMenu('Render')
     render_menu.addSeparator()
 
-    # The following is for the Thinkbox submitter.
-    # Consider enabling this if transitioning to NK2DL from Thinkbox.
-    '''
-    # Add thinkbox submitter
-    render_menu.addCommand(
-        'Submit Nuke to Deadline (Thinkbox)',
-        'import DeadlineNukeClient; DeadlineNukeClient.main()',
-        "ctrl+shift+F7",
-        tooltip='Submit the current Nuke script to Deadline',
-    )
-    render_menu.addSeparator()
-    '''
+    if config.get('menu.thinkbox_submitter', False):
+        # Add thinkbox submitter
+        render_menu.addCommand(
+            'Submit Nuke to Deadline (Thinkbox)',
+            'import DeadlineNukeClient; DeadlineNukeClient.main()',
+            "ctrl+shift+F7",
+            tooltip='Submit the current Nuke script to Deadline',
+        )
+    else:
+        logger.info("Legacy Thinkbox submitter skipped, set menu.thinkbox_submitter to True in the config file to enable.")
 
-    render_menu.addCommand(
+    # Add NK2DL submission panel
+    render_menu.addCommand( 
         'Submit Nuke to Deadline',
         'nuke.nk2dlPane=nukescripts.panels.restorePanel("com.danielharkness.nk2dl.panel"); nuke.nk2dlPane.addToPane(nuke.getPaneFor("Viewer.1"))',
         "shift+F7",
@@ -155,7 +154,7 @@ def submit_selected_writes_to_deadline():
     selected_nodes = nuke.selectedNodes()
     
     # Check if we should recurse through groups
-    if config.get('submission.recurse_groups', True):
+    if config.get('menu.recurse_groups', True):
         selected_groups = nuke.selectedNodes('Group')
         for group in selected_groups:
             selected_nodes.extend(nuke.allNodes(group=group, recurseGroups=True))

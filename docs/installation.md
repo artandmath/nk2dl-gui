@@ -33,10 +33,9 @@ cd /path/to/nk2dl-gui-0.1.x-alpha
 
 ## 3. Install for a single user or multiple users in Nuke
 
-### Install for Nuke GUI, single user (.nuke method)
+### Install for single user (.nuke method)
 
 - Copy the folder `nk2dl_gui` from `src` into the user's `.nuke` folder.
-
 - The `.nuke` folder will contain the following structure
 
 ```bash
@@ -50,7 +49,7 @@ cd /path/to/nk2dl-gui-0.1.x-alpha
  │
 etc
 ```
-### Install for Nuke GUI, multiple users (init.py method)
+### Install for multiple users (init.py method)
 
 - Copy the `nk2dl_gui` folder from `src` to a location available to all users.
 - If necessary, add the location to an init.py file available to Nuke during the launch of your pipeline:
