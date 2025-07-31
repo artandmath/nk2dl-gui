@@ -5,7 +5,7 @@
 - **Nuke**: Compatible with Nuke 13+ (Nuke 15.2+ required for Graph Scope Variables)
 - **Deadline**: Thinkbox Deadline 10+ with Repository access
 - **Python Version**: Python 3.7+
-- **Python Dependencies**: nk2dl, YAML, Deadline API (these are installed into the virtual environment)
+- **Python Dependencies**: `nk2dl` python module and its dependencies
 
 ## 1. Install Dependencies
 
