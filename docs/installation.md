@@ -71,7 +71,12 @@ Add the following line to your `menu.py`:
 from nk2dl_gui import setup_gui
 ```
 
-## 5. Verify
+## 5. Install Metadata Gizmos (optional)
+
+STUB
+Metadata nodes will be available as "Grizmos" (aka Groups) from the nodes menu if the Metadata nodea are not installed as Gizmos.
+
+## 6. Verify
 
 - Launch Nuke
 - Check the Render menu, it should contain the following two menu items:
@@ -79,3 +84,4 @@ from nk2dl_gui import setup_gui
   - `Submit Selected Writes to Deadline`
 
 ![Screenshot of the render menu containing the new menu entries](./img/screenshot_render_menu.png)
+
