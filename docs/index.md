@@ -1,6 +1,5 @@
 ## Getting started
 
-
 - Follow the [Installation Guide](./installation.md) to install `nk2dl-gui`.
 - Follow the [Quickstart Usage Guide](./quickstart.md) to start using `nk2dl-gui`.
 

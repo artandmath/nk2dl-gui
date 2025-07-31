@@ -2,7 +2,7 @@
 
 Welcome to `nk2dl-gui` (aka Nuke to Deadline GUI). `nk2dl-gui` is a set of components for submitting nodes from the currently open nukescript to Thinkbox Deadline from the Nuke GUI. 
 
-![Nuke to Deadline panel screenshot!](./docs/img/screenshot_panel_initial_state.png)
+![SCreenshot of the Nuke to Deadline panel](./docs/img/screenshot_panel_initial_state.png)
 
 ## Getting started
 

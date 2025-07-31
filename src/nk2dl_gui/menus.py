@@ -97,7 +97,7 @@ def create_toolbar_commands():
     
     # Get the path to the gizmos directory
     current_dir = Path(__file__).parent
-    gizmos_dir = current_dir.parent / "nk2dl_grizmos"
+    gizmos_dir = current_dir / "grizmos"
     
     # Define gizmo files
     gizmos = {
