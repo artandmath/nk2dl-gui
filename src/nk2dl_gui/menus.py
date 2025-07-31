@@ -3,6 +3,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import List
 
 try:
     import nuke
@@ -25,6 +26,9 @@ from nk2dl.logging import setup_logging
 
 # Create a module-specific logger
 logger = setup_logging('nk2dl_gui.menus')
+
+# Import config for submission settings
+from nk2dl.config import config
 
 
 def create_render_menus():
@@ -54,16 +58,9 @@ def create_render_menus():
         "ctrl+shift+F7",
         tooltip='Submit the current Nuke script to Deadline',
     )
+    render_menu.addSeparator()
     '''
-    # Add submission command
-    '''
-    render_menu.addCommand(
-        'Submit Nuke to Deadline',
-        'nukescripts.panels.restorePanel("com.danielharkness.nk2dl.panel")',
-        "shift+F7",
-        tooltip='Open submission dialog with advanced options',
-    )
-    '''
+
     render_menu.addCommand(
         'Submit Nuke to Deadline',
         'nuke.nk2dlPane=nukescripts.panels.restorePanel("com.danielharkness.nk2dl.panel"); nuke.nk2dlPane.addToPane(nuke.getPaneFor("Viewer.1"))',
@@ -76,7 +73,7 @@ def create_render_menus():
         'Submit Selected Writes to Deadline',
         'from nk2dl_gui.menus import submit_selected_writes_to_deadline; submit_selected_writes_to_deadline()',
         "alt+shift+F7",
-        tooltip='Submit selected Write/DeepWrite nodes to Deadline',
+        tooltip='Submit selected write nodes to Deadline (supports custom write node classes)',
     )
         
     logger.info("nk2dl menus created successfully")
@@ -130,8 +127,18 @@ def create_toolbar_commands():
     return True
 
 
+
+
+
 def submit_selected_writes_to_deadline():
-    """Submit selected Write/DeepWrite nodes to Deadline."""
+    """Submit selected write nodes to Deadline.
+    
+    Supports Write, DeepWrite, and additional write node classes configured
+    in the submission.custom_write_classes configuration setting.
+    
+    Group recursion can be controlled via the submission.recurse_groups
+    configuration setting (defaults to True).
+    """
     if not NUKE_AVAILABLE:
         print("Error: Nuke not available")
         return
@@ -146,22 +153,22 @@ def submit_selected_writes_to_deadline():
 
     # Get selected nodes
     selected_nodes = nuke.selectedNodes()
-    selected_groups = nuke.selectedNodes('Group')
-    for group in selected_groups:
-        selected_nodes.extend(nuke.allNodes(group=group, recurseGroups=True))
     
-    selected_writes = []
-    for node in selected_nodes:
-        if node.Class() == 'Write' or node.Class() == 'DeepWrite':
-            selected_writes.append(node)
+    # Check if we should recurse through groups
+    if config.get('submission.recurse_groups', True):
+        selected_groups = nuke.selectedNodes('Group')
+        for group in selected_groups:
+            selected_nodes.extend(nuke.allNodes(group=group, recurseGroups=True))
+    
+    # Get write node types from config and filter selected nodes
+    write_node_types = ['Write', 'DeepWrite'] + config.get('submission.custom_write_classes', [])
+    selected_writes = [node for node in selected_nodes if node.Class() in write_node_types]
 
     if not selected_writes:
-        nuke.message("No nodes selected. Please select at least one Write or DeepWrite node.")
+        nuke.message("No write nodes selected. Please select at least one write node (Write, DeepWrite, or custom write node classes).")
         return False
     
-    write_node_names = []
-    for node in selected_writes:
-        write_node_names.append(node.fullName())
+    write_node_names = [node.fullName() for node in selected_writes]
 
     try:
         from nk2dl import submit_nuke_script
@@ -180,10 +187,7 @@ def submit_selected_writes_to_deadline():
         job_ids = []
         for result in results:
             if result and 'job_id' in result:
-                if isinstance(result['job_id'], list):
-                    job_ids.extend(result['job_id'])
-                else:
-                    job_ids.append(result['job_id'])
+                job_ids.extend(result['job_id'] if isinstance(result['job_id'], list) else [result['job_id']])
         
         # Create message showing write nodes and job IDs
         message_parts = [f"Submitted {len(job_ids)} jobs to Deadline."]
