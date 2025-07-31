@@ -1,7 +1,7 @@
 # Installation
 
 ## System Requirements
-- **Operating System**: Windows 10 (currently tested only on Windows; Linux and MacOS support planned.)
+- **Operating System**: Windows 10 (currently tested only on Windows; Testing Linux and MacOS support planned. Linux and MacOS may already work)
 - **Nuke**: Compatible with Nuke 13+ (Nuke 15.2+ required for Graph Scope Variables)
 - **Deadline**: Thinkbox Deadline 10+ with Repository access
 - **Python Version**: Python 3.7+
@@ -38,6 +38,7 @@ cd /path/to/nk2dl-gui-0.1.x-alpha
 - Copy the folder `nk2dl_gui` from `src` into the user's `.nuke` folder.
 
 - The `.nuke` folder will contain the following structure
+
 ```bash
 ~/.nuke/
  ├─ Deadline/
