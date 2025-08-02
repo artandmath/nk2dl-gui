@@ -70,7 +70,7 @@ Add the following line to your `menu.py`:
 from nk2dl_gui import setup_gui
 ```
 
-## 5. Install Metadata Gizmos (optional)
+## 5. Install metadata gizmos (optional)
 
 TODO: Convert Grizmos to Gizmos
 
