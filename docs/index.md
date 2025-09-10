@@ -6,7 +6,7 @@
 ## Full documentation
 
 - [Installation Guide](./installation.md)
-- [Quickstart Usage Guide](./installation.md)
+- [Quickstart Usage Guide](./quickstart.md)
 - [Submit Nodes Workflow](./submit_nodes_workflow.md) 
 - [Panel Workflow](./panel_workflow.md) 
 - [Configuration](./config.md)
